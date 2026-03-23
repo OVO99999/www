@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>技术实现路径 | 智检环保 · 绿眸智检</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', 'Roboto', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+            background: #f4f9f2;   /* 柔和绿白基调背景 */
+            color: #1d3524;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* 顶部导航栏 (简洁，白绿融合) */
+        .navbar {
+            background: #ffffff;
+            backdrop-filter: blur(2px);
+            border-bottom: 1px solid #d9ecd0;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(60, 90, 50, 0.04);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .logo a {
+            font-size: 1.55rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: linear-gradient(125deg, #236b45, #3e9f62);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #2c5e3f;
+            text-decoration: none;
+            font-weight: 520;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            padding: 0.2rem 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            color: #197a45;
+            border-bottom-color: #76c893;
+            transform: translateY(-1px);
+        }
+
+        /* 主内容容器 — 留白舒适 */
+        .main-container {
+            max-width: 1280px;
+            margin: 2.2rem auto 3.5rem auto;
+            padding: 0 2rem;
+        }
+
+        /* 主体卡片：宽松圆润，大量留白 */
+        .content-card {
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -15px rgba(40, 70, 40, 0.08);
+            padding: 2.8rem 3rem;
+            transition: all 0.2s;
+            border: 1px solid #eaf5e5;
+        }
+
+        /* 头部区域 */
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e3f3dd;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1d6e45, #339e60);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.5px;
+        }
+
+        .hero .sub {
+            color: #4a6b53;
+            font-size: 1.1rem;
+            background: #f6fcf3;
+            display: inline-block;
+            padding: 0.35rem 1.5rem;
+            border-radius: 60px;
+            font-weight: 450;
+        }
+
+        /* 阶段容器 — 舒适间距，绿白卡片内敛 */
+        .stage {
+            margin: 2.8rem 0;
+            background: #fefefb;
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem 2rem 2rem;
+            transition: all 0.2s;
+            border: 1px solid #e2f0dc;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .stage:first-of-type {
+            margin-top: 1.5rem;
+        }
+
+        .stage:last-child {
+            margin-bottom: 0.5rem;
+        }
+
+        .stage:hover {
+            background: #ffffff;
+            border-color: #c8e0be;
+            box-shadow: 0 12px 22px -14px rgba(60, 100, 50, 0.12);
+        }
+
+        .stage h2 {
+            font-size: 1.85rem;
+            font-weight: 600;
+            color: #1e6d47;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .stage h2:before {
+            content: "🌿";
+            font-size: 1.7rem;
+            font-weight: normal;
+        }
+
+        /* 针对不同阶段微调小叶子装饰 (保持清新) */
+        .stage:first-of-type h2:before {
+            content: "📊";
+        }
+        .stage:nth-of-type(2) h2:before {
+            content: "⚙️";
+        }
+        .stage:nth-of-type(3) h2:before {
+            content: "🚀";
+        }
+
+        .subheading {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2a6e47;
+            margin: 1.2rem 0 0.8rem 0;
+            padding-left: 0.5rem;
+            border-left: 4px solid #7dc48c;
+        }
+
+        .grid-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin: 0.8rem 0 1rem 0;
+        }
+
+        .list-item {
+            display: flex;
+            gap: 0.9rem;
+            align-items: baseline;
+            font-size: 1rem;
+            color: #2b4233;
+        }
+
+        .list-icon {
+            color: #3cac6b;
+            font-weight: 600;
+            min-width: 28px;
+            font-size: 1.1rem;
+        }
+
+        .feature-badge {
+            background: #eff9ea;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2b734a;
+            display: inline-block;
+            margin-right: 0.8rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 1.2rem 0 0.8rem;
+        }
+
+        .metric-card {
+            background: #fafef7;
+            border-radius: 1.2rem;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid #deedd5;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #2a6a45;
+        }
+
+        hr {
+            margin: 1.8rem 0 0.5rem;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #cbe5c0, transparent);
+        }
+
+        .footnote {
+            background: #f9fff7;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.6rem;
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #3b674c;
+            border: 1px solid #dcebd4;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #eef5ea;
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 500;
+            color: #226e44;
+            transition: all 0.2s;
+            margin-top: 1.2rem;
+            border: 1px solid #d2e6c8;
+        }
+
+        .back-link:hover {
+            background: #e0f0d8;
+            color: #155a38;
+            transform: translateX(-3px);
+            border-color: #b1d4a2;
+        }
+
+        /* 响应式：不紧凑，保留舒适边距 */
+        @media (max-width: 750px) {
+            .content-card {
+                padding: 1.8rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .stage h2 {
+                font-size: 1.5rem;
+            }
+            .main-container {
+                padding: 0 1.2rem;
+            }
+            .stage {
+                padding: 1.3rem;
+            }
+            .nav-links {
+                gap: 1.2rem;
+            }
+        }
+
+        /* 让代码和参数可读性高 */
+        .highlight {
+            background: #eef4ea;
+            border-radius: 12px;
+            padding: 0.1rem 0.3rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #286e44;
+        }
+        .tag {
+            background: white;
+            border-radius: 20px;
+            padding: 0.2rem 0.9rem;
+            font-size: 0.8rem;
+            border: 1px solid #c8e2bc;
+            color: #2b7a4e;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 顶部导航 — 清爽绿白，可作为子页面独立使用，同时预留返回超链接示意 -->
+<div class="main-container">
+    <div class="content-card">
+        <div class="hero">
+            <h1>技术实现路径</h1>
+            <div class="sub">数据 · 模型 · 部署 | 全流程协同架构</div>
+            <div style="margin-top: 0.8rem;">
+                <span class="tag">YOLOv8 + PyTorch</span>
+                <span class="tag">Labelme ↔ COCO</span>
+                <span class="tag">迁移学习 & AMP</span>
+                <span class="tag">MMYOLO 推理</span>
+            </div>
+        </div>
+
+        <!-- 阶段1: 数据处理阶段 -->
+        <div class="stage">
+            <h2>一、数据处理阶段</h2>
+            <div class="grid-list">
+                <div class="list-item">
+                    <div class="list-icon">✓</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">像素级精准标注</strong><br>采用 <span class="highlight">Labelme</span> 工具，针对塑料、金属、纸屑、厨余等8类垃圾进行人工像素级标注，标注准确率 ≥99%。确保小目标（烟头、纸屑）边缘清晰。</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">⟳</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">智能格式转换</strong><br>自研 <span class="highlight">COCO / Labelme 双向转换工具</span>，适配 MMYOLO 训练框架，转换准确率 100%。彻底解决标注文件不兼容问题。</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">📐</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">可复现数据集划分</strong><br>固定随机种子 + 分层抽样 (7:2:1) ，保证训练/验证/测试集类别分布均衡，实验结果完全可复现。</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">✨</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">数据增强泛化</strong><br>随机裁剪、翻转、亮度/对比度调整，提升模型在户外强光、阴影遮挡下的鲁棒性。</div>
+                </div>
+            </div>
+            <div class="metrics">
+                <div class="metric-card">📁 标注图像 ≥5,000 张</div>
+                <div class="metric-card">🔄 支持8类垃圾 + 背景复杂场景</div>
+                <div class="metric-card">🧩 转换工具开源兼容</div>
+            </div>
+        </div>
+
+        <!-- 阶段2: 模型训练阶段 -->
+        <div class="stage">
+            <h2>二、模型训练阶段</h2>
+            <div class="grid-list">
+                <div class="list-item">
+                    <div class="list-icon">🧠</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">核心框架 · YOLOv8 + PyTorch/CUDA</strong><br>基于 <span class="highlight">PyTorch + CUDA</span> 高性能计算，以 YOLOv8 为检测基座，引入 <strong>迁移学习</strong> (公开垃圾数据集预训练权重微调)。小样本场景（仅5000张）快速达到高精度。</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">⚡</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">自动混合精度训练 (AMP)</strong><br>动态切换 FP16 / FP32，显存占用减少 <strong>50%</strong>，训练速度提升 <strong>30%</strong>，迭代效率大幅提升。</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">🎯</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">收敛策略 · 余弦退火 + 早停机制</strong><br>避免过拟合，保障模型稳定收敛。最终识别准确率 ≥95%，小目标检测率 ≥90%，单帧推理速度 ≤30ms。</div>
+                </div>
+            </div>
+            <div class="metrics">
+                <div class="metric-card">🏋️ 训练效率提升40%</div>
+                <div class="metric-card">📈 mAP@0.5 ≥ 96%</div>
+                <div class="metric-card">💾 显存占用优化至 ≤8GB</div>
+            </div>
+        </div>
+
+        <!-- 阶段3: 部署应用阶段 -->
+        <div class="stage">
+            <h2>三、部署应用阶段</h2>
+            <div class="grid-list">
+                <div class="list-item">
+                    <div class="list-icon">📡</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">一键推理 · 多端适配</strong><br>通过 <span class="highlight">MMYOLO</span> 完成模型导出与推理，支持 Python / Windows 终端一键执行。输出垃圾类型、位置坐标、置信度信息，实时推送至环卫调度平台，形成“检测-定位-调度-清理”闭环。</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">🌦️</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">复杂环境增强适配</strong><br>户外强光/逆光采用自适应图像增强算法，准确率保持≥92%；雨天/雾天多帧融合技术过滤干扰，漏检率≤3%；支持温度 -10℃~60℃，湿度 0%~95%。</div>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon">🖥️</div>
+                    <div><strong class="subheading" style="margin:0; border-left:none; padding-left:0;">多设备接入 + 快速部署</strong><br>兼容无人机航拍、环卫车车载摄像头、固定监控，检测距离 0.5~10 米。部署周期 ≤7个工作日，终端算力要求 ≤16GB 显存。</div>
+                </div>
+            </div>
+            <div class="metrics">
+                <div class="metric-card">📍 GPS 定位误差 ≤±5cm</div>
+                <div class="metric-card">📱 支持实时推送 & 智能派单</div>
+                <div class="metric-card">⚙️ 故障率 ≤0.5%</div>
+            </div>
+        </div>
+
+        <!-- 核心技术指标汇总 (轻量美观) -->
+        <hr>
+        <div style="margin: 1.8rem 0 0.8rem 0;">
+            <div class="subheading" style="margin-bottom: 1rem;">📌 核心技术指标速览</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                <div style="background:#F3F9EF; border-radius: 1.2rem; padding: 0.5rem 1.2rem;"><span style="font-weight:700;">🎯 识别准确率</span> ≥95%</div>
+                <div style="background:#F3F9EF; border-radius: 1.2rem; padding: 0.5rem 1.2rem;"><span style="font-weight:700;">🔍 小目标检测率</span> ≥90%</div>
+                <div style="background:#F3F9EF; border-radius: 1.2rem; padding: 0.5rem 1.2rem;"><span style="font-weight:700;">⚡ 单帧推理速度</span> ≤30ms</div>
+                <div style="background:#F3F9EF; border-radius: 1.2rem; padding: 0.5rem 1.2rem;"><span style="font-weight:700;">📐 定位误差</span> ≤±5cm</div>
+                <div style="background:#F3F9EF; border-radius: 1.2rem; padding: 0.5rem 1.2rem;"><span style="font-weight:700;">🏭 环境适应性</span> -10℃~60℃ / 强光雨雾</div>
+            </div>
+        </div>
+
+        <!-- 返回超链接示意（模拟回到主页面，实际可替换为主页地址） -->
+        <div class="footnote">
+            🌟 技术闭环：从数据标注到智能调度全流程自主可控，已申请发明专利3项、软著3项。
+            <div style="margin-top: 1rem;">
+                <a href="#" class="back-link" id="backToMainLink">← 返回项目主页面 (超链接示例)</a>
+            </div>
+            <div style="font-size:0.8rem; margin-top: 1rem; color:#577a62;">* 本页面为独立技术实现路径文档，支持独立部署及超链接跳转。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 简单模拟超链接: 如果您的主页名为 index.html 或 主页地址，替换 href 即可 -->
+<script>
+    // 演示用：实际部署时可将 # 更换为主页 URL，保证超链接跳转
+    const backBtn = document.getElementById('backToMainLink');
+    if (backBtn) {
+        // 若需要真实主页面地址，可修改此处，例如 'index.html' 或 '/' 
+        // 目前保留 "#" 演示超链接样式，实际替换即可成为有效链接
+        backBtn.addEventListener('click', (e) => {
+            // 若 href 为 "#" 可提示或者直接替换真实链接地址
+            if(backBtn.getAttribute('href') === '#') {
+                e.preventDefault();
+                alert('🔗 超链接示例：可替换为主页面URL（如 index.html）。当前为演示模式。');
+            }
+        });
+    }
+</script>
+</body>
+</html>
