@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>智检环保·技创未来 | 智慧环卫AI解决方案</title>
+    <!-- 引入 Font Awesome 6 (免费图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #f8fef5 0%, #eff7e6 100%);
+            color: #1a2f1f;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #d9e6cf;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b6e3c;
+            border-radius: 10px;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* 头部 Hero 区域 */
+        .hero {
+            background: linear-gradient(135deg, #0e4429 0%, #1b6b3c 100%);
+            color: white;
+            padding: 3.5rem 0 4rem 0;
+            border-radius: 0 0 3rem 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 35px -12px rgba(0,32,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: "🌱";
+            font-size: 220px;
+            opacity: 0.08;
+            position: absolute;
+            bottom: -40px;
+            right: -20px;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255,255,240,0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1.2rem;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .hero h1 span {
+            font-weight: 300;
+            display: inline-block;
+        }
+        .hero .sub {
+            font-size: 1.2rem;
+            max-width: 780px;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            border-left: 4px solid #a7e05e;
+            padding-left: 1.2rem;
+        }
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.8rem;
+        }
+        .hero-stat {
+            background: rgba(255,255,245,0.12);
+            border-radius: 60px;
+            padding: 0.5rem 1.5rem;
+            backdrop-filter: blur(5px);
+            font-weight: 600;
+        }
+        .hero-stat i {
+            margin-right: 8px;
+            color: #c5f267;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 12px 28px -8px rgba(0, 32, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            border: 1px solid #e2f0da;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 36px -12px rgba(30, 80, 20, 0.15);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #1a4d2a;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: #4caf50;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+        .section-sub {
+            color: #3f5e42;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            max-width: 85%;
+        }
+
+        /* 指标网格 */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .metric-item {
+            background: #fafff4;
+            border-radius: 1.5rem;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-left: 4px solid #3eaa5a;
+            box-shadow: 0 6px 12px -6px rgba(0,0,0,0.05);
+        }
+        .metric-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #236b3a;
+            line-height: 1;
+        }
+        .metric-label {
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: #2c4b2f;
+        }
+
+        /* 三列布局 */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* 架构分层样式 */
+        .arch-stack {
+            background: #f4fef0;
+            border-radius: 1.8rem;
+            padding: 1.6rem;
+            margin: 1rem 0;
+        }
+        .layer {
+            background: white;
+            border-radius: 1.2rem;
+            margin-bottom: 1rem;
+            padding: 1rem 1.5rem;
+            border-left: 6px solid #3eaa5a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .layer h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1c542c;
+        }
+
+        /* 时间线简易 */
+        .timeline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+        .timeline-step {
+            flex: 1;
+            background: #fafef5;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            border-top: 4px solid #4cae4f;
+            min-width: 180px;
+        }
+
+        /* 按钮/标签 */
+        .tag {
+            background: #e2f0dc;
+            color: #1a5729;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        footer {
+            background: #0e3520;
+            color: #cbe5cd;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-radius: 2rem 2rem 0 0;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+            }
+            .hero-stats {
+                gap: 1rem;
+            }
+        }
+        .highlight-text {
+            background: linear-gradient(120deg, #e3ffcf 0%, #c8f0b0 80%);
+            padding: 0 0.2rem;
+            font-weight: 600;
+            color: #155e2b;
+            border-radius: 6px;
+        }
+        .icon-green {
+            color: #328f48;
+            margin-right: 8px;
+        }
+        .btn-ghost {
+            border: 1px solid #3eaa5a;
+            background: transparent;
+            border-radius: 60px;
+            padding: 0.4rem 1.2rem;
+            transition: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container hero-content">
+            <div class="badge"><i class="fas fa-leaf me-1"></i> 黔西南民族职业技术学院 · 工业机器人技术团队</div>
+            <h1>智检环保·技创未来<br><span>以AI之力赋能智慧环卫，以视觉之姿筑梦绿色发展</span></h1>
+            <div class="sub">创新融合视觉AI技术与环卫作业场景，构建“AI视觉检测+智能调度”智慧环卫解决方案，低于传统成本50%，填补技术空白。</div>
+            <div class="hero-stats">
+                <div class="hero-stat"><i class="fas fa-chart-line"></i> 识别准确率 ≥95%</div>
+                <div class="hero-stat"><i class="fas fa-bolt"></i> 推理速度 ≤30ms</div>
+                <div class="hero-stat"><i class="fas fa-dollar-sign"></i> 成本降低 50%</div>
+                <div class="hero-stat"><i class="fas fa-microchip"></i> YOLOv8 + PyTorch</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 项目背景 -->
+        <div class="card" style="margin-bottom: 2.5rem;">
+            <h2 class="section-title">项目背景</h2>
+            <p style="margin-top: 0.8rem; font-size: 1.05rem;">绿色发展国家战略下，智慧环卫面临传统作业转型瓶颈。黔西南民族职业技术学院25级工业机器人专业学生<span class="highlight-text">黎冉、李海涛、陈咪娜、程海诺</span>组成创意团队，聚焦行业痛点，依托Labelme标注、MMYOLO训练推理、PyTorch/CUDA计算栈，通过YOLOv8目标检测与迁移学习，实现垃圾精准识别、定位与智能推送。全程无需人工干预，成本低于传统方案50%，为新质生产力注入绿色动能。</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px;">
+                <span class="tag"><i class="fas fa-brain"></i> 视觉AI</span>
+                <span class="tag"><i class="fas fa-chart-simple"></i> 智能调度</span>
+                <span class="tag"><i class="fas fa-microchip"></i> 边缘计算</span>
+                <span class="tag"><i class="fas fa-recycle"></i> 8类垃圾识别</span>
+            </div>
+        </div>
+
+        <!-- 项目目标 三块 -->
+        <h2 class="section-title">项目目标</h2>
+        <div class="grid-3">
+            <div class="card">
+                <i class="fas fa-bullseye" style="font-size: 2rem; color:#2a8545;"></i>
+                <h3 style="margin: 0.8rem 0 0.5rem;">技术目标</h3>
+                <p>垃圾识别准确率≥95%，小目标（烟头/纸屑）检测率≥90%，单帧推理≤30ms，定位误差≤±5cm。制定3项核心技术标准，构建完整技术体系。</p>
+                <div style="margin-top: 12px;"><span class="tag">COCO/Labelme标准</span><span class="tag">MMYOLO训练指南</span></div>
+            </div>
+            <div class="card">
+                <i class="fas fa-chart-line" style="font-size: 2rem; color:#2a8545;"></i>
+                <h3 style="margin: 0.8rem 0 0.5rem;">市场目标</h3>
+                <p>短期与兴义市环卫集团合作3条主干道+2个4A景区，部署200套AI终端；长期拓展6大细分场景，市场渗透率达18%，培育“绿眸智检”品牌。</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-users" style="font-size: 2rem; color:#2a8545;"></i>
+                <h3 style="margin: 0.8rem 0 0.5rem;">团队目标</h3>
+                <p>算法组人均年申请专利≥2项，工程组完成15+场景落地经验，培养6名全流程技术骨干，形成数据标注-模型训练-场景验证闭环。</p>
+            </div>
+        </div>
+
+        <!-- 核心内容：系统架构 + 核心技术指标 -->
+        <h2 class="section-title">核心内容 · 系统架构</h2>
+        <div class="arch-stack">
+            <div class="layer"><h4><i class="fas fa-database icon-green"></i> 数据层</h4><p>Labelme像素级标注 + COCO/Labelme双向转换工具，7:2:1分层抽样保证复现。数据增强提升泛化能力，转换准确率100%。</p></div>
+            <div class="layer"><h4><i class="fas fa-brain icon-green"></i> 算法层</h4><p>PyTorch/CUDA + YOLOv8核心，迁移学习+自动混合精度训练，显存占用减少50%，训练速度提升30%，小样本5000张实现高精度。</p></div>
+            <div class="layer"><h4><i class="fas fa-map-marked-alt icon-green"></i> 应用层</h4><p>MMYOLO推理可视化，输出垃圾类型+坐标+置信度，集成GPS推送至环卫调度平台，形成“检测-定位-调度-清理”闭环，部署周期≤7天。</p></div>
+        </div>
+
+        <!-- 核心技术指标卡片 -->
+        <div class="metric-grid">
+            <div class="metric-item"><div class="metric-number">≥95%</div><div class="metric-label">识别准确率</div></div>
+            <div class="metric-item"><div class="metric-number">≤30ms</div><div class="metric-label">单帧推理速度</div></div>
+            <div class="metric-item"><div class="metric-number">8类</div><div class="metric-label">塑料/金属/纸屑/厨余等</div></div>
+            <div class="metric-item"><div class="metric-number">-10~60℃</div><div class="metric-label">宽温域适应</div></div>
+            <div class="metric-item"><div class="metric-number">≤3%</div><div class="metric-label">雨天雾天漏检率</div></div>
+            <div class="metric-item"><div class="metric-number">0.5~10m</div><div class="metric-label">多设备检测距离</div></div>
+        </div>
+
+        <!-- 技术实现路径与团队分工 -->
+        <div class="grid-3" style="margin-top: 0.5rem;">
+            <div class="card">
+                <h3><i class="fas fa-code-branch icon-green"></i> 技术实现路径</h3>
+                <ul style="margin-left: 1.2rem; margin-top: 0.8rem;">
+                    <li><strong>数据处理：</strong>Labelme标注 → COCO转换 + 分层抽样/增强</li>
+                    <li><strong>模型训练：</strong>PyTorch/CUDA + YOLOv8预训练权重+迁移学习+AMP混合精度</li>
+                    <li><strong>部署应用：</strong>MMYOLO导出推理，Python/Windows一键执行，对接调度系统</li>
+                </ul>
+                <p style="margin-top: 12px;">✨ 针对强光/雨天优化自适应增强算法，多帧融合抗干扰，无人机/车载/固定监控全适配。</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-user-gear icon-green"></i> 团队分工</h3>
+                <p><strong>技术研发组：</strong>数据标注规范+格式转换，YOLOv8调优，迁移学习策略。<br>
+                <strong>工程实施组：</strong>系统集成、终端部署、多场景测试（城市道路/景区/恶劣环境）。<br>
+                <strong>项目管理组：</strong>敏捷开发2周迭代，Git+Confluence，日站会周复盘。</p>
+                <div class="tag">敏捷迭代</div><div class="tag">跨专业协作</div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-cogs icon-green"></i> 环境适配保障</h3>
+                <p>✔ 户外强光/逆光：自适应图像增强，准确率≥92%<br>
+                ✔ 雨雾天气：多帧融合，漏检率≤3%<br>
+                ✔ 多设备接入：无人机航拍、车载、固定监控，检测距离0.5~10m，算力要求≤16GB显存。</p>
+            </div>
+        </div>
+
+        <!-- 实施计划（时间线风格） -->
+        <h2 class="section-title">实施计划</h2>
+        <div class="timeline">
+            <div class="timeline-step"><i class="fas fa-flask" style="font-size: 1.6rem; color:#2a8545;"></i><h3 style="margin: 8px 0;">研发阶段<br>(1-3月)</h3><p>架构设计、格式转换工具、PyTorch环境搭建，采集5000张标注图，YOLOv8迁移学习+混合精度训练，初测准确率≥93%，速度≤35ms。</p></div>
+            <div class="timeline-step"><i class="fas fa-vial" style="font-size: 1.6rem; color:#2a8545;"></i><h3 style="margin: 8px 0;">测试阶段<br>(1个月)</h3><p>城市道路/景区/雨天强光三场景测试，小目标+遮挡验证，专家评审优化，系统故障率≤0.5%，指标全面达标。</p></div>
+            <div class="timeline-step"><i class="fas fa-chart-simple" style="font-size: 1.6rem; color:#2a8545;"></i><h3 style="margin: 8px 0;">市场推广<br>(2-6个月+)</h3><p>短期试点部署兴义市主干道&景区；中期电商+渠道合作，“基础版+进阶版”套餐；长期联合制定行业标准，构建产业生态。</p></div>
+        </div>
+
+        <!-- 校企合作与资源保障 -->
+        <div class="card" style="margin: 2rem 0;">
+            <h2 class="section-title">校企合作 · 三位一体</h2>
+            <div class="grid-3" style="margin-top: 1.2rem; gap: 1rem;">
+                <div><i class="fas fa-university" style="font-size: 1.8rem; color:#2c7840;"></i><h4>高校</h4><p>AI实验室+GPU服务器(价值500万)，10人研发团队专注模型优化与工具开发。</p></div>
+                <div><i class="fas fa-building" style="font-size: 1.8rem; color:#2c7840;"></i><h4>企业合作方</h4><p>XX智能科技公司，ISO9001生产线，AI终端良品率≥99%，量产与硬件适配。</p></div>
+                <div><i class="fas fa-city" style="font-size: 1.8rem; color:#2c7840;"></i><h4>环卫部门</h4><p>开放3条主干道+2个景区试点，提供真实数据与场景反馈，闭环迭代技术。</p></div>
+            </div>
+            <hr style="margin: 1rem 0; border-color: #cee6c2;">
+            <div><strong>资源保障：</strong>联合智慧环卫AI实验室，共享10万张垃圾图像库；首期300万启动资金+二期500万产业化资金，省级环保科技专项预计150万；合作方提供20家客户资源，快速转化。</div>
+        </div>
+
+        <!-- 预期效益 -->
+        <h2 class="section-title">预期效益</h2>
+        <div class="grid-3">
+            <div class="card">
+                <i class="fas fa-coins" style="font-size: 1.8rem; color:#2a8545;"></i>
+                <h3>💰 经济效益</h3>
+                <p>环卫作业成本降低<strong>50%以上</strong>（单条主干道日均成本200元→80元）<br>12个月销售额≥500万元，3年累计突破2000万元；拉动上下游创造500+就业岗位。</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-hand-holding-heart" style="font-size: 1.8rem; color:#2a8545;"></i>
+                <h3>🌍 社会效益</h3>
+                <p>垃圾清理响应时间从24h缩短至<strong>2h内</strong>，垃圾覆盖率降低80%。单台AI终端日均覆盖50公里≈10名环卫工人效率，缓解人力压力，推动产教融合。</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-microscope" style="font-size: 1.8rem; color:#2a8545;"></i>
+                <h3>⚙️ 技术效益</h3>
+                <p>形成自主知识产权：发明专利3项、实用新型2项、软著3项。数据集划分/模型训练流程标准化，为智慧环卫行业提供技术范式。</p>
+            </div>
+        </div>
+
+        <!-- 未来展望 + 技术升级路径 -->
+        <div class="card" style="background: linear-gradient(105deg, #ffffff 0%, #f6fff0 100%);">
+            <h2 class="section-title">未来展望 · 智领绿色纪元</h2>
+            <div class="grid-3" style="margin-top: 1rem;">
+                <div>
+                    <i class="fas fa-rocket" style="font-size: 1.8rem; color:#2a8545;"></i>
+                    <h3>技术升级</h3>
+                    <p>引入语义分割实现垃圾区域体积估算，融合红外检测支持夜间作业，多模态融合将识别准确率提升至98%以上。</p>
+                </div>
+                <div>
+                    <i class="fas fa-chart-line" style="font-size: 1.8rem; color:#2a8545;"></i>
+                    <h3>市场拓展</h3>
+                    <p>场景深耕机场/港口/高速，建立华北华东华南三大运营中心，发展50家渠道伙伴，3年市场渗透率突破25%。</p>
+                </div>
+                <div>
+                    <i class="fas fa-globe" style="font-size: 1.8rem; color:#2a8545;"></i>
+                    <h3>长远生态</h3>
+                    <p>构建“智慧环卫AI生态平台”，整合检测、调度、运维、数据分析，联合制定行业标准，共建“智慧环保产业学院”，形成技术-产品-标准-人才四位一体格局。</p>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; background: #e9f5e3; border-radius: 1.5rem; padding: 1rem; text-align: center;">
+                <i class="fas fa-seedling" style="color:#236b3a;"></i> <strong>“绿眸智检”品牌愿景：</strong> 以AI之力守护绿水青山，引领智慧环卫新变革，助力碳中和与生态文明建设。
+            </div>
+        </div>
+
+        <!-- 附加数据卡片：关于数据集与标准 -->
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin: 2rem 0;">
+            <div style="background: white; border-radius: 1.5rem; padding: 1rem 1.6rem; flex:1; min-width: 180px; text-align: center;">
+                <i class="fas fa-database fa-2x" style="color:#328f48;"></i>
+                <div style="font-weight: 800; font-size: 1.4rem;">10万+</div>
+                <div>垃圾图像数据集</div>
+            </div>
+            <div style="background: white; border-radius: 1.5rem; padding: 1rem 1.6rem; flex:1; min-width: 180px; text-align: center;">
+                <i class="fas fa-chart-simple fa-2x" style="color:#328f48;"></i>
+                <div style="font-weight: 800; font-size: 1.4rem;">≤7工作日</div>
+                <div>快速部署周期</div>
+            </div>
+            <div style="background: white; border-radius: 1.5rem; padding: 1rem 1.6rem; flex:1; min-width: 180px; text-align: center;">
+                <i class="fas fa-trophy fa-2x" style="color:#328f48;"></i>
+                <div style="font-weight: 800; font-size: 1.4rem;">3项标准</div>
+                <div>环卫AI技术规范</div>
+            </div>
+        </div>
+
+        <!-- 团队学生与致谢 -->
+        <div style="background: #eef6e9; border-radius: 2rem; padding: 1.8rem; text-align: center; margin: 1rem 0 2rem;">
+            <i class="fas fa-graduation-cap" style="font-size: 2rem; color:#236b3a;"></i>
+            <p style="font-weight: 500; margin-top: 8px;">创意团队：黎冉 · 李海涛 · 陈咪娜 · 程海诺（黔西南民族职业技术学院 25级工业机器人技术专业）<br>
+            指导单位：智慧环卫AI实验室 | 校企联合创新中心<br>
+            “智检环保·技创未来”——让每一处街景洁净如新，用AI智绘绿色中国。</p>
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-leaf"></i> 绿眸智检 · 以AI之力赋能智慧环卫 | 绿色发展 智创未来 <br>
+        © 2025 黔西南民族职业技术学院 项目策划 | 数据基于真实科研测试，愿景共建美丽中国
+    </footer>
+</body>
+</html>
